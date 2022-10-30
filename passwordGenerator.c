@@ -1,32 +1,41 @@
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h>
+#include <ctype.h>
 
 char usertPassword [25]; 
+char usertNewPassword [25];
 int i;
 
 void inputPassword();
 int checkLengthPassword();
-int checkHasNumber();
+int checkHasNumber(int length);
+void encriptionPassword(int length);
+void addFourEachDigit(int length);
+void addingLengthAndStarmark(int orgLength);
+void passwordReverse();
 
 int main(){
 L1:	{
 		
 		inputPassword();
 	
-		printf("%s",usertPassword);
-	
+		 //cheack password length
 		int length=checkLengthPassword();
 		if(length==-1){
 			goto L1;
 		}
 		
+		//check password has a number
 		if(checkHasNumber(length)==-1){
 			printf("\nYour password is invalid. Plece try again..\nPassword is will this type \"Hello4 or hello4\"");
-		}else{
-			printf("%d",11);
 		}
-			
+		
+		encriptionPassword(length);
+		
+		printf("\n--> %s",usertNewPassword);
+		
+		
 	}
 	
 	
@@ -45,7 +54,6 @@ int checkLengthPassword(){
 	
 	//count array length
 	for(length=0;usertPassword[length] !='\0';length++);
-	printf("\n%d",length);
 	
 	if(length>=6 && length<=9){
 		return length;
@@ -60,58 +68,115 @@ int checkHasNumber(int length){
 	for(i=0;i<length;i++){
 		switch(usertPassword[i]){
 			case '0':
-				printf("%d",0);
 				return 1;
 				break;
 			case '1':
-				printf("%d",1);
 				return 1;
 				break;
 			case '2':
-				printf("%d",2);
 				return 1;
 				break;
 			case '3':
-				printf("%d",3);
 				return 1;
 				break;
 			case '4':
-				printf("%d",4);
 				return 1;
 				break;
 			case '5':
-				printf("\n%d\n",5);
 				return 1;
 				break;
 			case '6':
-				printf("%d",6);
 				return 1;
 				break;
 			case '7':
-				printf("%d",7);
 				return 1;
 				break;
 			case '8':
-				printf("%d",8);
 				return 1;
 				break; 
 			case '9':
-				printf("%d",9);
 				return 1;
 				break;
 			default:
-				printf("\n\nRun default case");
+				break;
 		}
 	}
 	
 }
 
+void encriptionPassword(int length){
+	addFourEachDigit(length);
+	addingLengthAndStarmark(length);
+	passwordReverse();
+}
 
+void addFourEachDigit(int length){
+	int x=-2;
+	for(i=0;i<length;i++){
+		switch(usertPassword[i]){
+			case '0':
+				usertNewPassword[i]='4';
+				break;
+			case '1':
+				usertNewPassword[i]='5';
+				break;
+			case '2':
+				usertNewPassword[i]='6';
+				break;
+			case '3':
+				usertNewPassword[i]='7';
+				break;
+			case '4':
+				usertNewPassword[i]='8';
+				break;
+			case '5':
+				usertNewPassword[i]='9';
+				break;
+			case '6':
+				usertNewPassword[i]='1';
+				usertNewPassword[i+1]='0';
+				x=6;
+				break;
+			case '7':
+				usertNewPassword[i]='1';
+				usertNewPassword[i+1]='1';
+				break;
+			case '8':
+				usertNewPassword[i]='1';
+				usertNewPassword[i+1]='2';
+				break; 
+			case '9':
+				usertNewPassword[i]='1';
+				usertNewPassword[i+1]='3';
+				break;
+			default:
+				if(x<0){
+					usertNewPassword[i]=toupper(usertPassword[i]);	
+				}else{
+					usertNewPassword[i+1]=toupper(usertPassword[i]);
+				}
+				
+		}
+	}
+}
 
+void addingLengthAndStarmark(int orgLength){
+	int length,j;
+	for(length=0;usertNewPassword[length] !='\0';length++);
+	for(i=0,j=1;i<=length;i++,j++){
+		usertPassword[j]=usertNewPassword[i];
+	}
+	usertPassword[0]=orgLength+'0';
+	usertPassword[length+1]='*';
+}
 
-
-
-
+void passwordReverse(){
+	int length,j;
+	for(length=0;usertPassword[length] !='\0';length++);	
+	for(i=0,j=length-1;i<length,j>=0;i++,j--){
+		usertNewPassword[i]=usertPassword[j];
+	}
+}
 
 
 
